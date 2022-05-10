@@ -1,0 +1,23 @@
+name: stock-model
+on: [push]
+  jobs:
+    run:
+      run-on: [ubuntu-latest]
+      container: docker://dvcorg/cml-py3:latest\
+      steps:
+        - uses: checkout
+        - name: cml_run
+          env:
+            repo_token: ${{secrets.GITHUB_TOKEN}}
+          run: |
+            pip install -r require.txt
+            pip install ipynb-py-convert
+            ipynb-py-convert RLStock.ipynb RLStock.py
+            python RLstock.py 
+            
+            #echo 'Metrics' > repot.md
+            #cat metrics.txt >> report.md
+            
+            #echo 'Visualizations' >> report.md
+            #cml-publish training.png --md >> report.md
+            #cml-publish testing.png --md >> report.md
