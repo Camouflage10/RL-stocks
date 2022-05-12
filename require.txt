@@ -2,6 +2,8 @@ pandas
 pandas_datareader
 numpy
 sklearn
+matplotlib
 tensorflow
 keras
 yfinance
+-q -U keras-tuner
