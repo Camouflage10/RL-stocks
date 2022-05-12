@@ -1,8 +1,6 @@
 stages:
   nb-to-py:
-    cmd:  
-      - ipynb-py-convert get_state.ipynb get_state.py
-      - ipynb-py-convert RLSock.ipynb RLStock.py
+    cmd: bash convert.sh
     deps:
       - get_state.ipynb
       - RLStock.ipynb
