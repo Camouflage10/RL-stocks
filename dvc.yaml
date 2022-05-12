@@ -1,0 +1,5 @@
+stages:
+  change:
+    cmd: echo done
+    deps:
+    - get_state.ipynb

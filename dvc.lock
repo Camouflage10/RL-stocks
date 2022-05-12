@@ -1,0 +1,8 @@
+schema: '2.0'
+stages:
+  change:
+    cmd: echo done
+    deps:
+    - path: get_state.ipynb
+      md5: 6a6fecf487918524c65afcb7a0aa8096
+      size: 72492
