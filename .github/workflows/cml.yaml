@@ -1,23 +1,27 @@
-name: stock-model
-on: [push]
-  jobs:
-    run:
-      run-on: [ubuntu-latest]
-      container: docker://dvcorg/cml-py3:latest\
-      steps:
-        - uses: checkout
-        - name: cml_run
-          env:
-            repo_token: ${{secrets.GITHUB_TOKEN}}
-          run: |
+name: check_pipe
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    container: docker://iterativeai/cml:0-dvc2-base1-gpu
+    steps:
+      - uses: actions/checkout@v2
+      - name: run pipe
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            git config --global --add safe.directory /__w/RL-stocks/RL-stocks
             pip install -r require.txt
-            pip install ipynb-py-convert
-            ipynb-py-convert RLStock.ipynb RLStock.py
-            python RLstock.py 
+            dvc repro
+            git fetch --prune
             
-            #echo 'Metrics' > repot.md
-            #cat metrics.txt >> report.md
+            dvc metrics diff --show-md main > report.md
             
-            #echo 'Visualizations' >> report.md
-            #cml-publish training.png --md >> report.md
-            #cml-publish testing.png --md >> report.md
+            echo "## confusion matrix" >> report.md
+            cml publish plot.png --md >> report.md
+            
+            cml send-comment report.md
