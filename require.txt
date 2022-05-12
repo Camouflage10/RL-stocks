@@ -6,4 +6,4 @@ matplotlib
 tensorflow
 keras
 yfinance
--q -U keras-tuner
+keras-tuner
