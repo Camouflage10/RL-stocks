@@ -1,0 +1,23 @@
+name: push-master
+on:
+  push:
+    branches: main
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Fetch resources
+        run: |
+            pip install -r require.txt
+            ipynb-py-convert get_state.ipynb get_state.py
+            python get_state.py 
+        
+      - name: Update resources
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: metrics.json
+          commit-msg: Update resources
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        
