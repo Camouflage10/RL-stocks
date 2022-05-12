@@ -1,5 +1,29 @@
 stages:
-  change:
-    cmd: echo done
+  nb-to-py:
+    cmd:  
+      -ipynb-py-convert get_state.ipynb get_state.py
+      -ipynb-py-convert RLSock.ipynb RLStock.py
     deps:
-    - get_state.ipynb
+      - get_state.ipynb
+      - RLStock.ipynb
+    outs:
+      - get_state.py
+      - RLStock.py
+  get-state-pred:
+    cmd: python get_state.py
+    deps:
+      - get_state.py
+    outs:
+      - plot.png
+      - pred.csv
+    metrics:
+      - metrics.json:
+          cache: false
+  #run-rl:
+    #cmd: python CNN.py
+    #deps:
+      #- pred.csv
+      #- CNN.py
+    #outs:
+      #- progress.png
+      #- met.txt
